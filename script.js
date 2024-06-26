@@ -15,29 +15,28 @@ const products = [
 function renderProducts() {
   products.forEach((product) => {
     const li = document.createElement("li");
-    li.innerHTML = `${product.name} - $${product.price} <button class="add-to-cart-btn" data-id="${product.id}" onclick=()=>addtocart(${product.id})>Add to Cart</button>`;
-	  
-    productList.appendChild(li);
+    li.innerHTML = `${product.name} - $${product.price} <button class="add-to-cart-btn" data-id="${product.id}" onclick="addToCart(${product.id})">Add to Cart</button>`;
+    let productList=document.getElementById('product-list');
+	  productList.appendChild(li);
   });
 }
 
 // Render cart list
 function renderCart(productId) {
 	products.forEach((product)=>{
+		sessionStorage.setItem("cart",product);
 		if(product.id==productId){
 			const li=document.createElement("li");
 			li.innerHTML=`${product.name} - $${product.price}<button class="removefromcart" data-id="${product.id}">Remove from Cart</button>`;
-			cart-list.appendChild(li);
+			let cartList=document.getElementById('cart-list');
+			cartList.appendChild(li);
 		}
 	})
 }
 
 // Add item to cart
 function addToCart(productId) {
-		
-         cartitem.addEventListener('click',renderCart(productId));
-	}
-    
+	renderCart(productId);
 }
 	
 
@@ -52,6 +51,6 @@ function clearCart() {}
 // Initial render
 let productList = document.getElementById("product-list");
 renderProducts();
-
+renderCart();
 
 
