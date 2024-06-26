@@ -10,29 +10,48 @@ const products = [
 ];
 
 // DOM elements
-const productList = document.getElementById("product-list");
 
 // Render product list
 function renderProducts() {
   products.forEach((product) => {
     const li = document.createElement("li");
-    li.innerHTML = `${product.name} - $${product.price} <button class="add-to-cart-btn" data-id="${product.id}">Add to Cart</button>`;
+    li.innerHTML = `${product.name} - $${product.price} <button class="add-to-cart-btn" data-id="${product.id}" onclick=()=>addtocart(${product.id})>Add to Cart</button>`;
+	  
     productList.appendChild(li);
   });
 }
 
 // Render cart list
-function renderCart() {}
+function renderCart(productId) {
+	products.forEach((product)=>{
+		if(product.id==productId){
+			const li=document.createElement("li");
+			li.innerHTML=`${product.name} - $${product.price}<button class="removefromcart" data-id="${product.id}">Remove from Cart</button>`;
+			cart-list.appendChild(li);
+		}
+	})
+}
 
 // Add item to cart
-function addToCart(productId) {}
+function addToCart(productId) {
+		
+         cartitem.addEventListener('click',renderCart(productId));
+	}
+    
+}
+	
 
 // Remove item from cart
-function removeFromCart(productId) {}
+function removeFromCart(productId) {
+	
+}
 
 // Clear cart
 function clearCart() {}
 
 // Initial render
+let productList = document.getElementById("product-list");
 renderProducts();
-renderCart();
+
+
+
