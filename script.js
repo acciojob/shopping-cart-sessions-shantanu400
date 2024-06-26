@@ -9,7 +9,7 @@ const products = [
   { id: 5, name: "Product 5", price: 50 },
 ];
 
-// DOM elements
+let cart=JSON.parse(sessionStorage.getItem('cart')) || [];
 
 // Render product list
 function renderProducts() {
@@ -21,32 +21,51 @@ function renderProducts() {
   });
 }
 
-// Render cart list
-function renderCart(productId) {
-	products.forEach((product)=>{
-		sessionStorage.setItem("cart",product);
-		if(product.id==productId){
-			const li=document.createElement("li");
-			li.innerHTML=`${product.name} - $${product.price}<button class="removefromcart" data-id="${product.id}">Remove from Cart</button>`;
-			let cartList=document.getElementById('cart-list');
-			cartList.appendChild(li);
-		}
-	})
-}
-
 // Add item to cart
 function addToCart(productId) {
-	renderCart(productId);
+	 
+	products.forEach((product)=>{
+		
+		if(product.id==productId){
+			cart.push(product);
+			sessionStorage.setItem("cart",JSON.stringify(cart));
+			renderCart();
+		}
+	})
+	
+	
 }
+
+// Render cart list
+function renderCart() {
+	let cartList = document.getElementById('cart-list');
+  cartList.innerHTML = ``;  // Clear the cart list
+	cart.forEach((cartItem)=>{
+		const li=document.createElement("li");
+			li.innerHTML+=`${cartItem.name} - $${cartItem.price}<button class="removefromcart" data-id="${cartItem.id}" onclick="removeFromCart(${cartItem.id})">Remove from Cart</button>`;
+			cartList.appendChild(li);
+		
+	});
+}
+
+
 	
 
 // Remove item from cart
-function removeFromCart(productId) {
+function removeFromCart(cartItemId) {
 	
+
+
+cart = cart.filter(cartItem => cartItem.id != cartItemId);
+  sessionStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
 }
 
 // Clear cart
-function clearCart() {}
+function clearCart() {
+	cart=[];
+	sessionStorage.setItem("cart", JSON.stringify("cart"));
+}
 
 // Initial render
 let productList = document.getElementById("product-list");
